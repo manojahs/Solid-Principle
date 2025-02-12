@@ -13,6 +13,7 @@ A class should have only one reason to change.
 it Makes the code more maintainable and easier to understand.
 
 // ❌ Bad Example: The class is handling both employee data and salary calculation
+---------------------
 public class Employee
 {
     public string Name { get; set; }
@@ -23,6 +24,7 @@ public class Employee
 }
 
 // ✅ Good Example: Separate concerns into different classes
+--------------------------
 public class Employee
 {
     public string Name { get; set; }
@@ -47,6 +49,7 @@ public class EmployeeRepository
  Adding new functionality should not require modifying existing code.
 
  // ❌ Bad Example: Every time we add a new shape, we need to modify this class.
+ ----------------
 public class AreaCalculator
 {
     public double CalculateArea(object shape)
@@ -58,6 +61,7 @@ public class AreaCalculator
 }
 
 // ✅ Good Example: Using polymorphism (Open for extension, closed for modification)
+------------------
 public interface IShape
 {
     double CalculateArea();
@@ -133,6 +137,7 @@ public class Penguin
 ----------------------------------------------
 A class should not be forced to implement interfaces it does not use.
 // ❌ Bad Example: Printer class is forced to implement Scan(), even if it doesn’t support scanning
+------------------------------------
 public interface IMachine
 {
     void Print();
@@ -146,6 +151,7 @@ public class Printer : IMachine
 }
 
 // ✅ Good Example: Separate interfaces for specific behaviors
+---------------------------
 public interface IPrinter
 {
     void Print();
@@ -174,6 +180,7 @@ High-level modules should not depend on low-level modules. Both should depend on
 in the below example Notification class is using Email service which is dependent so that should not happen that why we need to use interface and call it seperately
 
 // ❌ Bad Example: High-level class depends on a low-level class directly
+-------------------------
 public class EmailService
 {
     public void SendEmail(string message) { /* Send Email */ }
@@ -186,6 +193,7 @@ public class Notification
 }
 
 // ✅ Good Example: Using an interface (abstraction)
+-------------------------------------
 public interface IMessageService
 {
     void SendMessage(string message);
