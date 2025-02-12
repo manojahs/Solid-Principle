@@ -6,6 +6,7 @@
 4. Interface Segregation Principle (ISP)
 5. Dependency Inversion Principle (DIP)
 
+---------------------------------------------
 1. Single Responsibility Principle (SRP)
 --------------------------------------------
 A class should have only one reason to change.
