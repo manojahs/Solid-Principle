@@ -1,4 +1,5 @@
 # Solid-Principle
+```
 --------------------------------
 1. Single Responsibility Principle (SRP)
 2. Open/Closed Principle (OCP)
@@ -219,5 +220,5 @@ public class Notification
     }
 }
 
-
+```
 
