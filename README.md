@@ -157,42 +157,51 @@ public class Penguin
 4. Interface Segregation Principle (ISP)
 ----------------------------------------------
 A class should not be forced to implement interfaces it does not use.
-// ❌ Bad Example: Printer class is forced to implement Scan(), even if it doesn’t support scanning
-------------------------------------
-public interface IMachine
+❌ Bad Example (Violating ISP)
+interface IWorker
 {
-    void Print();
-    void Scan();
+    void Work();
+    void Eat();
 }
 
-public class Printer : IMachine
+class HumanWorker : IWorker
 {
-    public void Print() { /* Print Logic */ }
-    public void Scan() { throw new NotImplementedException(); } // Not applicable
+    public void Work() => Console.WriteLine("Human working...");
+    public void Eat()  => Console.WriteLine("Human eating...");
 }
+
+class RobotWorker : IWorker
+{
+    public void Work() => Console.WriteLine("Robot working...");
+    public void Eat()  => throw new NotImplementedException("Robots don't eat ❌");
+}
+
 
 // ✅ Good Example: Separate interfaces for specific behaviors
 ---------------------------
-public interface IPrinter
+interface IWork
 {
-    void Print();
+    void Work();
 }
 
-public interface IScanner
+interface IEat
 {
-    void Scan();
+    void Eat();
 }
 
-public class Printer : IPrinter
+
+class HumanWorker : IWork, IEat
 {
-    public void Print() { /* Print Logic */ }
+    public void Work() => Console.WriteLine("Human working...");
+    public void Eat()  => Console.WriteLine("Human eating...");
 }
 
-public class MultiFunctionPrinter : IPrinter, IScanner
+class RobotWorker : IWork
 {
-    public void Print() { /* Print Logic */ }
-    public void Scan() { /* Scan Logic */ }
+    public void Work() => Console.WriteLine("Robot working...");
+    // No Eat() here ✅
 }
+
 
 5. Dependency Inversion Principle (DIP)
 ----------------------------------------
@@ -209,8 +218,10 @@ public class EmailService
 
 public class Notification
 {
-    private EmailService _emailService = new EmailService();
-    public void Notify(string message) { _emailService.SendEmail(message); }
+    private EmailService _emailService = new EmailService(); // depends on low level class
+    public void Notify(string message) {
+_emailService.SendEmail(message);
+}
 }
 
 // ✅ Good Example: Using an interface (abstraction)
