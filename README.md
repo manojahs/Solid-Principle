@@ -49,42 +49,62 @@ public class EmployeeRepository
  Open for extension, closed for modification.
  Adding new functionality should not require modifying existing code.
 
- // ❌ Bad Example: Every time we add a new shape, we need to modify this class.
+ // ❌ Bad Example: Every time we add a new payment , we need to modify this class.
  ----------------
-public class AreaCalculator
+class PaymentProcessor
 {
-    public double CalculateArea(object shape)
+    public void Process(string paymentType)
     {
-        if (shape is Circle c) return Math.PI * c.Radius * c.Radius;
-        if (shape is Rectangle r) return r.Width * r.Height;
-        return 0;
+        if (paymentType == "CreditCard")
+            Console.WriteLine("Processing credit card payment...");
+        else if (paymentType == "UPI")
+            Console.WriteLine("Processing UPI payment...");
+        // Tomorrow → Need PayPal? Must MODIFY this class ❌
     }
 }
 
+
 // ✅ Good Example: Using polymorphism (Open for extension, closed for modification)
 ------------------
-public interface IShape
+
+
+// Step 1: Define abstraction
+interface IPayment
 {
-    double CalculateArea();
+    void Pay();
 }
 
-public class Circle : IShape
+// Step 2: Implement different payment methods
+class CreditCardPayment : IPayment
 {
-    public double Radius { get; set; }
-    public double CalculateArea() => Math.PI * Radius * Radius;
+    public void Pay() => Console.WriteLine("Paid with Credit Card");
 }
 
-public class Rectangle : IShape
+class UPIPayment : IPayment
 {
-    public double Width { get; set; }
-    public double Height { get; set; }
-    public double CalculateArea() => Width * Height;
+    public void Pay() => Console.WriteLine("Paid with UPI");
 }
 
-public class AreaCalculator
+// Step 3: Payment processor depends on abstraction
+class PaymentProcessor
 {
-    public double CalculateArea(IShape shape) => shape.CalculateArea();
+    public void Process(IPayment payment)
+    {
+        payment.Pay();
+    }
 }
+
+// Usage
+class Program
+{
+    static void Main()
+    {
+        var processor = new PaymentProcessor();
+        processor.Process(new CreditCardPayment()); // Paid with Credit Card
+        processor.Process(new UPIPayment());       // Paid with UPI
+    }
+}
+
 
 3. Liskov Substitution Principle (LSP)
 -------------------------------------
